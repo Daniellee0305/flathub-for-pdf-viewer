@@ -1,0 +1,49 @@
+app-id: io.github.daniellee0305.PdfDirectViewer
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+command: pdf-direct-viewer-app.py
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --share=network
+  - --filesystem=host
+modules:
+  - name: poppler-data
+    buildsystem: simple
+    build-commands:
+      - make install prefix=/app
+    sources:
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
+        sha256: c735e273f35ef00030541d408f654b9d070196237731778939e6587c60e1d03c
+
+  - name: poppler
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
+      - -DENABLE_CPP=OFF
+      - -DENABLE_GLIB=ON
+      - -DENABLE_GOBJECT_INTROSPECTION=ON
+      - -DENABLE_QT5=OFF
+      - -DENABLE_QT6=OFF
+      - -DENABLE_BOOST=OFF
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    sources:
+      - type: archive
+        url: https://poppler.freedesktop.org/poppler-24.04.0.tar.xz
+        sha256: 6a63581775a6c6e7a27411603ba077d7042578589710f279155f84d9a4b162f1
+
+  - name: pdf-direct-viewer
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 pdf-direct-viewer-app.py /app/bin/pdf-direct-viewer-app.py
+      - install -Dm644 io.github.daniellee0305.PdfDirectViewer.desktop -t /app/share/applications/
+      - install -Dm644 io.github.daniellee0305.PdfDirectViewer.metainfo.xml -t /app/share/metainfo/
+      - install -Dm644 images/io.github.daniellee0305.PdfDirectViewer.svg -t /app/share/icons/hicolor/scalable/apps/
+    sources:
+      - type: git
+        url: https://github.com/Daniellee0305/PDF-direct-viewer.git
+        branch: main
