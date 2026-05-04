@@ -18,7 +18,7 @@ modules:
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
-        sha256: c735e273f35ef00030541d408f654b9d070196237731778939e6587c60e1d03c
+        sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
 
   - name: poppler
     buildsystem: cmake-ninja
