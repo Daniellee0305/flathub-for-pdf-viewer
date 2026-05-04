@@ -22,10 +22,11 @@ modules:
       - install -Dm644 io.github.daniellee0305.PdfDirectViewer.metainfo.xml -t /app/share/metainfo/
       - install -Dm644 images/io.github.daniellee0305.PdfDirectViewer.svg -t /app/share/icons/hicolor/scalable/apps/
     sources:
-      - type: git
-        url: https://github.com/Daniellee0305/PDF-direct-viewer.git
-        branch: main
-      - type: git
-        url: https://github.com/mozilla/pdfjs-dist.git
-        tag: v4.2.67
+      # Use the local directory for the main app - no git push needed!
+      - type: dir
+        path: ../PDF-viewer-Flatpak
+      # Use a reliable pre-built PDF.js archive
+      - type: archive
+        url: https://github.com/mozilla/pdf.js/releases/download/v4.0.379/pdfjs-4.0.379-dist.zip
+        sha256: 058826720f4c9c677e52b860655d88686623d4634352886361a9a4b162f18378
         dest: pdfjs
