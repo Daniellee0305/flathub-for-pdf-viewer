@@ -1,6 +1,6 @@
 app-id: io.github.daniellee0305.PdfDirectViewer
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '47'
 sdk: org.gnome.Sdk
 command: pdf-direct-viewer-app.py
 finish-args:
@@ -10,36 +10,14 @@ finish-args:
   - --device=dri
   - --share=network
   - --filesystem=host
+  - --env=WEBKIT_DISABLE_DMABUF_RENDERER=1
 modules:
-  - name: poppler-data
-    buildsystem: simple
-    build-commands:
-      - make install prefix=/app
-    sources:
-      - type: archive
-        url: https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
-        sha256: c835b640a40ce357e1b83666aabd95edffa24ddddd49b8daff63adb851cdab74
-
-  - name: poppler
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DENABLE_UNSTABLE_API_ABI_HEADERS=ON
-      - -DENABLE_CPP=OFF
-      - -DENABLE_GLIB=ON
-      - -DENABLE_GOBJECT_INTROSPECTION=ON
-      - -DENABLE_QT5=OFF
-      - -DENABLE_QT6=OFF
-      - -DENABLE_BOOST=OFF
-      - -DCMAKE_INSTALL_LIBDIR=lib
-    sources:
-      - type: archive
-        url: https://poppler.freedesktop.org/poppler-24.04.0.tar.xz
-        sha256: 1e804ec565acf7126eb2e9bb3b56422ab2039f7e05863a5dfabdd1ffd1bb77a7
-
   - name: pdf-direct-viewer
     buildsystem: simple
     build-commands:
       - install -Dm755 pdf-direct-viewer-app.py /app/bin/pdf-direct-viewer-app.py
+      - mkdir -p /app/share/pdfjs
+      - cp -r pdfjs/* /app/share/pdfjs/
       - install -Dm644 io.github.daniellee0305.PdfDirectViewer.desktop -t /app/share/applications/
       - install -Dm644 io.github.daniellee0305.PdfDirectViewer.metainfo.xml -t /app/share/metainfo/
       - install -Dm644 images/io.github.daniellee0305.PdfDirectViewer.svg -t /app/share/icons/hicolor/scalable/apps/
@@ -47,3 +25,7 @@ modules:
       - type: git
         url: https://github.com/Daniellee0305/PDF-direct-viewer.git
         branch: main
+      - type: git
+        url: https://github.com/mozilla/pdfjs-dist.git
+        tag: v4.2.67
+        dest: pdfjs
