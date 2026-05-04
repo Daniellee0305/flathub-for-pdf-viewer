@@ -34,7 +34,7 @@ modules:
     sources:
       - type: archive
         url: https://poppler.freedesktop.org/poppler-24.04.0.tar.xz
-        sha256: 6a63581775a6c6e7a27411603ba077d7042578589710f279155f84d9a4b162f1
+        sha256: 1e804ec565acf7126eb2e9bb3b56422ab2039f7e05863a5dfabdd1ffd1bb77a7
 
   - name: pdf-direct-viewer
     buildsystem: simple
