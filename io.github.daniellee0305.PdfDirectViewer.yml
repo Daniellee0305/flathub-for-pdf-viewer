@@ -1,6 +1,6 @@
 app-id: io.github.daniellee0305.PdfDirectViewer
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '50'
 sdk: org.gnome.Sdk
 command: pdf-direct-viewer-app.py
 finish-args:
